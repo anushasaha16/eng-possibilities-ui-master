@@ -1,0 +1,25 @@
+table, th, td {
+    border: 1px solid black;
+    /* border-collapse: collapse; */
+    border-left: none;
+    border-right: none;
+    border-top: none
+}
+
+table {
+    width: 100%;
+}
+th, td
+{
+    width: 33%;
+    padding: 10px;
+}
+
+#submit-button {
+    background-color: #6495ED;
+    color: #ffffff;
+    border-color: #6495ED;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+}
