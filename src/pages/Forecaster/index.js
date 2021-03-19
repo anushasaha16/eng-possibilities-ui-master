@@ -6,21 +6,51 @@ import './index.css'
 class ForecasterHome extends Component {
   state = {
     options: [],
-    allocations: [],
-    forecast: [],
+    allocations: { request: {
+      Retail: 0.0,
+      FinancialServices: 0.0,
+      Energy: 0.0,
+      Technology: 0.0,
+      Airline: 0.0,        
+      RealEstate: 0.0,
+      Gaming: 0.0,
+      Pharmaceuticals: 0.0
+    }},
+    forecast: [11532.00, 12289.49, 14652.40, 16089.65, 16786.33, 20501.64, 26464.97, 29953.73, 36323.80, 40275.31],
   };
 
   componentDidMount() {
     ForecastService.getInvestmentOptions().then((response) => {
-      this.setState({options: response.data})      
+      this.setState({
+        ...this.state,
+        options: response.data
+      })      
     })
   }
   
-  handleSubmit = async e => {
-    ForecastService.getForecast().then((response) => {
-      this.setState({forecast: response.data})      
+  handleSubmit = event => {
+    event.preventDefault();
+
+    ForecastService.getForecast(this.state.allocations).then((res) => {
+      this.setState({
+        ...this.state,
+        forecast: res.data.response
+      })   
+      console.log(this.state.forecast)   
     })
+
+    
   };
+
+  handleChange = event =>{
+    this.setState({
+      ...this.state,
+      allocations: { request: {
+        ...this.state.allocations.request,
+        [event.target.name.replace(/\s/g, '')]: event.target.value
+      }}
+    });
+  }
 
   render() {
     return (
@@ -29,13 +59,13 @@ class ForecasterHome extends Component {
           <h3>Investment Forecaster</h3>
           <p>Customize your investments and and view the potential growth of $10,000 over a period of 10 years</p>
         </div>
-        <Graph/>
+        <Graph data={this.state.forecast}/>
         <form onSubmit={this.handleSubmit}>
+          <h4>
+            Investment Allocations
+          </h4>
           <p>
-            <strong>Investment Allocations</strong>
-          </p>
-          <p>
-            <strong>$10,000 available</strong>
+            <strong>You have $10,000 available to invest</strong>
           </p>  
           <table>
             <thead>
@@ -52,7 +82,7 @@ class ForecasterHome extends Component {
                   <tr key = {option.category}>
                     <td>{option.category}</td>
                     <td>{option.minimum}%</td>
-                    <td><input type = "text"></input></td>  
+                    <td><input type = "number" name={option.category} min="0" max="100" onChange= {this.handleChange}></input></td>  
                   </tr>
                 ) 
               }
