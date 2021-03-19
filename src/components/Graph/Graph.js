@@ -3,6 +3,8 @@ import {CanvasJSChart} from 'canvasjs-react-charts'
 
 class Graph extends Component {
 	render() {
+		var forecast = this.props.data
+		
 		const options = {
 			animationEnabled: true,
 			exportEnabled: true,
@@ -25,16 +27,16 @@ class Graph extends Component {
 				type: "line",
 				toolTipContent: "Year {x}: ${y}",
 				dataPoints: [
-					{ x: 2021, y: 11532.00 },
-					{ x: 2022, y: 12289.49 },
-					{ x: 2023, y: 14652.40 },
-					{ x: 2024, y: 16089.65 },
-					{ x: 2025, y: 16786.33 },
-					{ x: 2026, y: 20501.64 },
-					{ x: 2027, y: 26464.97 },
-					{ x: 2028, y: 29953.73 },
-					{ x: 2029, y: 36323.80 },
-					{ x: 2030, y: 40275.31 },
+					{ x: 2021, y: forecast[0] },
+					{ x: 2022, y: forecast[1] },
+					{ x: 2023, y: forecast[2] },
+					{ x: 2024, y: forecast[3] },
+					{ x: 2025, y: forecast[4] },
+					{ x: 2026, y: forecast[5] },
+					{ x: 2027, y: forecast[6] },
+					{ x: 2028, y: forecast[7] },
+					{ x: 2029, y: forecast[8] },
+					{ x: 2030, y: forecast[9] },
 				]
 			}]
 		}
